@@ -18,7 +18,7 @@ func getstatuscode(url string) {
 	resp.Body.Close()
 }
 
-func operatecommand(args []string) (url string, path string, status bool) {
+func operatecommand(args []string) (url, path string, status bool) {
 	argsLen := len(args)
 
 	type commandList struct {
