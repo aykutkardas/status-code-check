@@ -21,7 +21,15 @@ func getstatuscode(url string) {
 func operatecommand(args []string) (url string, path string, status bool) {
 	argsLen := len(args)
 
-	if argsLen == 1 && args[0] == "-h" {
+	type commandList struct {
+		HELP string
+		PATH string
+		URL  string
+	}
+
+	command := commandList{HELP: "-h", PATH: "-f", URL: "-u"}
+
+	if argsLen == 1 && args[0] == command.HELP {
 		fmt.Println("-- HELP TEXT --") // TODO: Write help text and docs
 		return
 	} else if argsLen < 2 {
@@ -31,9 +39,9 @@ func operatecommand(args []string) (url string, path string, status bool) {
 
 	flag := args[0]
 
-	if flag == "-u" {
+	if flag == command.URL {
 		return args[1], "", true
-	} else if flag == "-f" {
+	} else if flag == command.PATH {
 		return "", args[1], true
 	}
 
