@@ -48,21 +48,31 @@ func operatecommand(args []string) (url string, path string, status bool) {
 	return "", "", false
 }
 
+func getandparsefile(path string) (urlList []string, err error) {
+	data, err := ioutil.ReadFile(path)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+	// windows new line problem solved.
+	fixedURLList := strings.ReplaceAll(string(data), "\r\n", "\n")
+	urlList = strings.Split(fixedURLList, "\n")
+	return urlList, nil
+}
+
 func main() {
 	arguments := os.Args[1:]
 	url, path, status := operatecommand(arguments)
 
 	if status != true {
+		fmt.Println("An unexpected error occurred.")
 		return
 	}
 
 	if len(url) > 0 {
 		getstatuscode(url)
 	} else if len(path) > 0 {
-		dat, err := ioutil.ReadFile(path)
-		if err == nil {
-			fixedURLList := strings.ReplaceAll(string(dat), "\r\n", "\n") // windows new line problem solved.
-			urlList := strings.Split(fixedURLList, "\n")
+		if urlList, err := getandparsefile(path); err == nil {
 			for _, url := range urlList {
 				getstatuscode(url)
 			}
