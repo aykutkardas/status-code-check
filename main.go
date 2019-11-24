@@ -12,13 +12,16 @@ import (
 
 func printStatusCodeWithColor(code int) {
 	white := color.New(color.FgWhite)
+	black := color.New(color.FgBlack)
 
 	if code >= 200 && code <= 226 {
 		white.Add(color.BgGreen).Printf(" %d ", code)
 	} else if code >= 300 && code <= 308 {
-		white.Add(color.BgYellow).Printf(" %d ", code)
-	} else if code >= 400 && code <= 599 {
+		black.Add(color.BgYellow).Printf(" %d ", code)
+	} else if code >= 400 && code <= 499 {
 		white.Add(color.BgRed).Printf(" %d ", code)
+	} else {
+		black.Add(color.BgWhite).Printf(" %d ", code)
 	}
 
 }
