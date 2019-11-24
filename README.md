@@ -1,7 +1,7 @@
 # status-code-check
 Status code check of URLs
 
-| Flag    | Name  | Example Inpu             |
+| Flag    | Name  | Example Input            |
 | :-----: |:-----:| :----------------------- |
 | -u      | url   | https://google.com       |
 | -p      | path  | "./path/to/filename.txt" |
