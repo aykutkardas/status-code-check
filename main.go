@@ -23,7 +23,7 @@ func printStatusCodeWithColor(code int) {
 
 }
 
-func getstatuscode(url string) {
+func getStatusCode(url string) {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
@@ -34,7 +34,7 @@ func getstatuscode(url string) {
 	resp.Body.Close()
 }
 
-func operatecommand(args []string) (url, path string, status bool) {
+func operateCommand(args []string) (url, path string, status bool) {
 	argsLen := len(args)
 
 	type commandList struct {
@@ -64,7 +64,7 @@ func operatecommand(args []string) (url, path string, status bool) {
 	return "", "", false
 }
 
-func getandparsefile(path string) ([]string, error) {
+func getAndParseFile(path string) ([]string, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println(err)
@@ -78,7 +78,7 @@ func getandparsefile(path string) ([]string, error) {
 
 func main() {
 	arguments := os.Args[1:]
-	url, path, status := operatecommand(arguments)
+	url, path, status := operateCommand(arguments)
 
 	if status != true {
 		fmt.Println("An unexpected error occurred.")
@@ -86,11 +86,11 @@ func main() {
 	}
 
 	if len(url) > 0 {
-		getstatuscode(url)
+		getStatusCode(url)
 	} else if len(path) > 0 {
-		if urlList, err := getandparsefile(path); err == nil {
+		if urlList, err := getAndParseFile(path); err == nil {
 			for _, url := range urlList {
-				getstatuscode(url)
+				getStatusCode(url)
 			}
 		}
 	}
