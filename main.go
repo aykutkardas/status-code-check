@@ -6,14 +6,30 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"github.com/fatih/color"
 )
+
+func printStatusCodeWithColor(code int) {
+	white := color.New(color.FgWhite)
+
+	if code >= 200 && code <= 226 {
+		white.Add(color.BgGreen).Printf(" %d ", code)
+	} else if code >= 300 && code <= 308 {
+		white.Add(color.BgYellow).Printf(" %d ", code)
+	} else if code >= 400 && code <= 599 {
+		white.Add(color.BgRed).Printf(" %d ", code)
+	}
+
+}
 
 func getstatuscode(url string) {
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println(resp.StatusCode, "|", url)
+		printStatusCodeWithColor(resp.StatusCode)
+		fmt.Println(" ", url)
 	}
 	resp.Body.Close()
 }
@@ -48,7 +64,7 @@ func operatecommand(args []string) (url, path string, status bool) {
 	return "", "", false
 }
 
-func getandparsefile(path string) (urlList []string, err error) {
+func getandparsefile(path string) ([]string, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
 		fmt.Println(err)
@@ -56,7 +72,7 @@ func getandparsefile(path string) (urlList []string, err error) {
 	}
 	// windows new line problem solved.
 	fixedURLList := strings.ReplaceAll(string(data), "\r\n", "\n")
-	urlList = strings.Split(fixedURLList, "\n")
+	urlList := strings.Split(fixedURLList, "\n")
 	return urlList, nil
 }
 
