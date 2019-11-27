@@ -4,7 +4,7 @@ Status code check of URLs
 | Flag    | Name  | Example Input            |
 | :-----: |:-----:| :----------------------- |
 | -u      | url   | https://google.com       |
-| -p      | path  | "./path/to/filename.txt" |
+| -f      | file  | "./path/to/filename.txt" |
 
 
 ## Usage 
@@ -34,7 +34,7 @@ https://jsonplaceholder.typicode.com/users
 
 #### Terminal
 ```
-go run main.go -p "path/to/filename.txt"
+go run main.go -f "path/to/filename.txt"
 ```
 
 #### Output
