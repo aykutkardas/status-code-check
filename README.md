@@ -12,7 +12,7 @@ Status code check of URLs
 ### Check the status code of a URL
 #### Terminal
 ```
-go run main.go -u https://google.com
+go run main.go -u=https://google.com
 ```
 
 #### Output
@@ -34,7 +34,7 @@ https://jsonplaceholder.typicode.com/users
 
 #### Terminal
 ```
-go run main.go -f "path/to/filename.txt"
+go run main.go -f="path/to/filename.txt"
 ```
 
 #### Output

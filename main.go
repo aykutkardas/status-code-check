@@ -1,10 +1,10 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"io/ioutil"
 	"net/http"
-	"os"
 	"strings"
 
 	"github.com/fatih/color"
@@ -37,36 +37,6 @@ func getStatusCode(url string) {
 	resp.Body.Close()
 }
 
-func operateCommand(args []string) (url, path string, status bool) {
-	argsLen := len(args)
-
-	type commandList struct {
-		HELP string
-		PATH string
-		URL  string
-	}
-
-	command := commandList{HELP: "-h", PATH: "-f", URL: "-u"}
-
-	if argsLen == 1 && args[0] == command.HELP {
-		fmt.Println("-- HELP TEXT --") // TODO: Write help text and docs
-		return
-	} else if argsLen < 2 {
-		fmt.Println("You must specify a file path or url. For more information, please use the '-h' flag.")
-		return
-	}
-
-	flag := args[0]
-
-	if flag == command.URL {
-		return args[1], "", true
-	} else if flag == command.PATH {
-		return "", args[1], true
-	}
-
-	return "", "", false
-}
-
 func getAndParseFile(path string) ([]string, error) {
 	data, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -80,22 +50,21 @@ func getAndParseFile(path string) ([]string, error) {
 }
 
 func main() {
-	arguments := os.Args[1:]
-	url, path, status := operateCommand(arguments)
+	url := flag.String("url", "", "Give an url")
+	path := flag.String("path", "", "Give a path")
 
-	if status != true {
-		fmt.Println("An unexpected error occurred.")
-		return
-	}
+	flag.Parse()
 
-	if len(url) > 0 {
-		getStatusCode(url)
-	} else if len(path) > 0 {
-		if urlList, err := getAndParseFile(path); err == nil {
+	if len(*url) > 0 {
+		getStatusCode(*url)
+	} else if len(*path) > 0 {
+		if urlList, err := getAndParseFile(*path); err == nil {
 			for _, url := range urlList {
 				getStatusCode(url)
 			}
 		}
+	} else {
+		fmt.Println("You must specify a file path or url.")
 	}
 
 }
