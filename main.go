@@ -50,8 +50,8 @@ func getAndParseFile(path string) ([]string, error) {
 }
 
 func main() {
-	url := flag.String("url", "", "Give an url")
-	path := flag.String("path", "", "Give a path")
+	url := flag.String("u", "", "Give an url")
+	path := flag.String("f", "", "Give a file path")
 
 	flag.Parse()
 
