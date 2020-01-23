@@ -39,6 +39,7 @@ func getStatusCode(url string) {
 
 func getAndParseFile(path string) ([]string, error) {
 	data, err := ioutil.ReadFile(path)
+
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
@@ -57,10 +58,12 @@ func main() {
 
 	if len(*url) > 0 {
 		getStatusCode(*url)
-	} else if len(*path) > 0 {
+	}
+
+	if len(*path) > 0 {
 		if urlList, err := getAndParseFile(*path); err == nil {
-			for _, url := range urlList {
-				getStatusCode(url)
+			for _, item := range urlList {
+				getStatusCode(item)
 			}
 		}
 	} else {
