@@ -28,6 +28,12 @@ func printStatusCodeWithColor(code int) {
 }
 
 func validateURL(input string) bool {
+	httpPrefix := strings.HasPrefix(input, "http")
+
+	if !httpPrefix {
+		return false
+	}
+
 	_, err := url.ParseRequestURI(input)
 
 	if err != nil {
