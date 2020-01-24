@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github.com/fatih/color"
@@ -24,6 +25,16 @@ func printStatusCodeWithColor(code int) {
 		black.Add(color.BgWhite).Printf(" %d ", code)
 	}
 
+}
+
+func validateURL(input string) bool {
+	_, err := url.ParseRequestURI(input)
+
+	if err != nil {
+		return false
+	}
+
+	return true
 }
 
 func getStatusCode(url string) {
@@ -56,18 +67,19 @@ func main() {
 
 	flag.Parse()
 
-	if len(*url) > 0 {
+	if validateURL(*url) {
 		getStatusCode(*url)
 	}
 
 	if len(*path) > 0 {
 		if urlList, err := getAndParseFile(*path); err == nil {
 			for _, item := range urlList {
-				getStatusCode(item)
+				if validateURL(item) {
+					getStatusCode(item)
+				}
 			}
 		}
 	} else {
 		fmt.Println("You must specify a file path or url.")
 	}
-
 }
