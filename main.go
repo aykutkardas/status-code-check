@@ -44,6 +44,11 @@ func validateURL(input string) bool {
 }
 
 func getStatusCode(url string) {
+
+	if !validateURL(url) {
+		return
+	}
+
 	resp, err := http.Get(url)
 	if err != nil {
 		fmt.Println(err)
@@ -73,16 +78,12 @@ func main() {
 
 	flag.Parse()
 
-	if validateURL(*url) {
-		getStatusCode(*url)
-	}
+	getStatusCode(*url)
 
 	if len(*path) > 0 {
 		if urlList, err := getAndParseFile(*path); err == nil {
 			for _, item := range urlList {
-				if validateURL(item) {
-					getStatusCode(item)
-				}
+				getStatusCode(item)
 			}
 		}
 	} else {
